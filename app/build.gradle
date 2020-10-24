@@ -42,6 +42,40 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+
+    def buildTypeDimension = "release"
+    flavorDimensions buildTypeDimension
+
+    productFlavors {
+        all {
+            buildConfigField "String", "TMDB_BASE_URL", '"https://api.themoviedb.org/3/"'
+        }
+
+        production {
+            dimension buildTypeDimension
+            def keystorePropertiesFile = rootProject.file('config/prod-keys.properties')
+            if (keystorePropertiesFile.exists()) {
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+            } else {
+                println 'Could not find dev-keys.properties'
+            }
+        }
+
+        develop {
+            dimension buildTypeDimension
+            applicationIdSuffix ".develop"
+            def keystorePropertiesFile = rootProject.file('config/dev-keys.properties')
+            if (keystorePropertiesFile.exists()) {
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+            } else {
+                println 'Could not find dev-keys.properties'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -56,12 +90,12 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
 
     // Hilt
-    implementation 'com.google.dagger:hilt-android:2.29-alpha'
-    kapt 'com.google.dagger:hilt-android-compiler:2.29-alpha'
+    implementation 'com.google.dagger:hilt-android:2.29.1-alpha'
+    kapt 'com.google.dagger:hilt-android-compiler:2.29.1-alpha'
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
