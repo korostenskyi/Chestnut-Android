@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/popularFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="io.korostenskyi.chestnut.presentation.screen.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        android:id="@+id/popularFragment"
+        android:name="io.korostenskyi.chestnut.presentation.screen.popular.PopularFragment"
+        android:label="PopularFragment"
+        tools:layout="@layout/fragment_popular"/>
 </navigation>
