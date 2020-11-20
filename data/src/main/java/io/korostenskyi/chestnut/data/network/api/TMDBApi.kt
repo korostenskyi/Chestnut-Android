@@ -8,6 +8,7 @@ interface TMDBApi {
 
     @GET("movie/popular")
     suspend fun fetchPopularMovies(
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String,
+        @Query("page") page: Int
     ): PopularMoviesResponse
 }

@@ -11,9 +11,8 @@ class MovieRepositoryImpl @Inject constructor(
     private val mapper: ApiResponseMapper
 ) : MovieRepository {
 
-    override suspend fun fetchPopularMovies(): List<Movie> {
-        val response = dataSource.fetchPopularMovies()
-        val movies = response.movies.map { mapper.map(it) }
-        return movies
+    override suspend fun fetchPopularMovies(page: Int): List<Movie> {
+        val response = dataSource.fetchPopularMovies(page)
+        return response.movies.map { mapper.map(it) }
     }
 }

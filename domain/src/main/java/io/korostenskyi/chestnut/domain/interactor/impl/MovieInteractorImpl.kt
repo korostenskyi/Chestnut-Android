@@ -9,7 +9,7 @@ class MovieInteractorImpl @Inject constructor(
     private val movieRepository: MovieRepository
 ) : MovieInteractor {
 
-    override suspend fun fetchPopularMovies(): List<Movie> {
-        return movieRepository.fetchPopularMovies()
+    override suspend fun fetchPopularMovies(page: Int): List<Movie> {
+        return movieRepository.fetchPopularMovies(page)
     }
 }

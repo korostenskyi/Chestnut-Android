@@ -4,5 +4,5 @@ import io.korostenskyi.chestnut.domain.model.Movie
 
 interface MovieInteractor {
 
-    suspend fun fetchPopularMovies(): List<Movie>
+    suspend fun fetchPopularMovies(page: Int): List<Movie>
 }
