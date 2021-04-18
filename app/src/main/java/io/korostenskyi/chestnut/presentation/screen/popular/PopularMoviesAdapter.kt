@@ -27,11 +27,7 @@ class PopularMoviesViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(movie: Movie) {
-        binding.ivPoster.load("$POSTER_BASE_URL${movie.posterPath}")
-    }
-
-    companion object {
-        private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w185_and_h278_bestv2"
+        binding.ivPoster.load(movie.posterPath)
     }
 }
 
