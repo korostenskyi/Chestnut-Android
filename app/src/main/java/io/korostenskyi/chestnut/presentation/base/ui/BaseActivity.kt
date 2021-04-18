@@ -10,8 +10,6 @@ abstract class BaseActivity(
     @LayoutRes layoutId: Int
 ) : AppCompatActivity(layoutId) {
 
-    private var backPressFunction: (() -> Unit)? = null
-
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,18 +20,6 @@ abstract class BaseActivity(
     override fun onDestroy() {
         Timber.tag(LIFECYCLE_TAG).d("${javaClass.simpleName} onDestroy")
         super.onDestroy()
-    }
-
-    override fun onBackPressed() {
-        backPressFunction?.invoke() ?: super.onBackPressed()
-    }
-
-    fun overrideBackPress(back: () -> Unit) {
-        backPressFunction = back
-    }
-
-    fun clearOverriddenBackPress() {
-        backPressFunction = null
     }
 
     companion object {

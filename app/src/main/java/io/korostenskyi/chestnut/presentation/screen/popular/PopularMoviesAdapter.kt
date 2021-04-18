@@ -2,16 +2,14 @@ package io.korostenskyi.chestnut.presentation.screen.popular
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import io.korostenskyi.chestnut.databinding.ItemPopularMovieBinding
 import io.korostenskyi.chestnut.domain.model.Movie
 
-class PopularMoviesAdapter : RecyclerView.Adapter<PopularMoviesViewHolder>() {
-
-    private val popularMovies = mutableListOf<Movie>()
-
-    override fun getItemCount() = popularMovies.count()
+class PopularMoviesAdapter : ListAdapter<Movie, PopularMoviesViewHolder>(MovieDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularMoviesViewHolder {
         return ItemPopularMovieBinding
@@ -20,12 +18,7 @@ class PopularMoviesAdapter : RecyclerView.Adapter<PopularMoviesViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: PopularMoviesViewHolder, position: Int) {
-        holder.bind(popularMovies[position])
-    }
-
-    fun addMovies(list: List<Movie>) {
-        popularMovies.addAll(list)
-        notifyDataSetChanged()
+        holder.bind(currentList[position])
     }
 }
 
@@ -34,12 +27,21 @@ class PopularMoviesViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(movie: Movie) {
-        binding.apply {
-            ivPoster.load("$POSTER_BASE_URL${movie.posterPath}")
-        }
+        binding.ivPoster.load("$POSTER_BASE_URL${movie.posterPath}")
     }
 
     companion object {
         private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w185_and_h278_bestv2"
+    }
+}
+
+object MovieDiff : DiffUtil.ItemCallback<Movie>() {
+
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem == newItem
     }
 }

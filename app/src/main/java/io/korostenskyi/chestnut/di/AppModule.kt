@@ -3,13 +3,13 @@ package io.korostenskyi.chestnut.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import io.korostenskyi.chestnut.BuildConfig
 import io.korostenskyi.chestnut.domain.model.BuildParams
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides

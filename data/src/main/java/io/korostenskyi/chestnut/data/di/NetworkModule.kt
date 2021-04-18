@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import io.korostenskyi.chestnut.data.network.MovieDataSource
 import io.korostenskyi.chestnut.data.network.api.TMDBApi
 import io.korostenskyi.chestnut.data.network.impl.MovieDataSourceImpl
@@ -18,7 +18,7 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class NetworkModule {
 
     @Binds

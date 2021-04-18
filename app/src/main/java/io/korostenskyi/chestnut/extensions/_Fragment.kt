@@ -11,10 +11,10 @@ fun <B : ViewBinding> Fragment.viewBindings(binder: (View) -> B): ViewBindingDel
     return ViewBindingDelegate(this, binder)
 }
 
-inline fun Fragment.lifecycleScopeLaunch(
+inline fun Fragment.launch(
     crossinline block: suspend () -> Unit
 ) {
-    lifecycleScope.launch {
+    lifecycleScope.launchWhenStarted {
         block()
     }
 }

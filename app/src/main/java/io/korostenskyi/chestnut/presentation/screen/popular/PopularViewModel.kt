@@ -1,14 +1,16 @@
 package io.korostenskyi.chestnut.presentation.screen.popular
 
-import androidx.hilt.lifecycle.ViewModelInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
 import io.korostenskyi.chestnut.domain.model.Movie
 import io.korostenskyi.chestnut.extensions.launch
 import io.korostenskyi.chestnut.presentation.base.viewModel.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
-class PopularViewModel @ViewModelInject constructor(
+@HiltViewModel
+class PopularViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor
 ): BaseViewModel() {
 

@@ -11,7 +11,8 @@ abstract class BaseFragment(
     @LayoutRes layoutId: Int
 ) : Fragment(layoutId) {
 
-    private val baseActivity by lazy { activity as BaseActivity }
+    private val baseActivity: BaseActivity
+        get() = requireActivity() as BaseActivity
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +36,6 @@ abstract class BaseFragment(
     override fun onDestroy() {
         Timber.tag(LIFECYCLE_TAG).d("${javaClass.simpleName} onDestroy")
         super.onDestroy()
-    }
-
-    fun overrideBackPress(back: () -> Unit) {
-        baseActivity.overrideBackPress(back)
-    }
-
-    fun clearOverriddenBackPress() {
-        baseActivity.clearOverriddenBackPress()
     }
 
     companion object {

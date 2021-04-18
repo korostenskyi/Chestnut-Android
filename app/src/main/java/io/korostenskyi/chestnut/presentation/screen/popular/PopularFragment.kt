@@ -3,14 +3,16 @@ package io.korostenskyi.chestnut.presentation.screen.popular
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.databinding.FragmentPopularBinding
-import io.korostenskyi.chestnut.extensions.lifecycleScopeLaunch
+import io.korostenskyi.chestnut.extensions.launch
 import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class PopularFragment : BaseFragment(R.layout.fragment_popular) {
@@ -26,10 +28,10 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
         viewModel.retrievePopularMovies()
     }
 
-    private fun collectFlows() = lifecycleScopeLaunch {
-        viewModel.popularMoviesFlow.collect {
-            popularMoviesAdapter.addMovies(it)
-        }
+    private fun collectFlows() = launch {
+        viewModel.popularMoviesFlow
+            .onEach(popularMoviesAdapter::submitList)
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setupViews() {
