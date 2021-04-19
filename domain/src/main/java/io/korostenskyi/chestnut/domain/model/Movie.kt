@@ -5,7 +5,7 @@ data class Movie(
     val title: String,
     val description: String,
     val posterPath: String,
-    val backdropPath: String,
+    val backdropPath: String?,
     val isAdult: Boolean,
     val voteAverage: Double,
     val voteCount: Int

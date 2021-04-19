@@ -1,4 +1,4 @@
-package io.korostenskyi.chestnut.presentation.screen.popular
+package io.korostenskyi.chestnut.presentation.screen.popular.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -38,6 +38,8 @@ object MovieDiff : DiffUtil.ItemCallback<Movie>() {
     }
 
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        return oldItem == newItem
+        return oldItem.title.equals(newItem.title, ignoreCase = true)
+                && oldItem.description.equals(newItem.description, ignoreCase = true)
+                && oldItem.isAdult == newItem.isAdult
     }
 }

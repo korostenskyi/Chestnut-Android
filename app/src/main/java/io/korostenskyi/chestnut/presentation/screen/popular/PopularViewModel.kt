@@ -14,17 +14,23 @@ class PopularViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor
 ): BaseViewModel() {
 
-    private val _popularMoviesFlow = MutableStateFlow<List<Movie>>(emptyList())
+    private val _moviesStateFlow = MutableStateFlow<MoviesState>(MoviesState.Loading)
 
-    val popularMoviesFlow: StateFlow<List<Movie>> = _popularMoviesFlow
+    val moviesStateFlow: StateFlow<MoviesState>
+        get() = _moviesStateFlow
+
+    private val movies = mutableListOf<Movie>()
+
     var page = 1
         set(value) {
-            retrievePopularMovies()
             field = value
+            retrievePopularMovies()
         }
 
     fun retrievePopularMovies() = launch {
-        val movies = movieInteractor.fetchPopularMovies(page)
-        _popularMoviesFlow.value = movies
+        _moviesStateFlow.value = MoviesState.Loading
+        val result = movieInteractor.fetchPopularMovies(page)
+        movies.addAll(result)
+        _moviesStateFlow.value = MoviesState.Success(movies)
     }
 }
