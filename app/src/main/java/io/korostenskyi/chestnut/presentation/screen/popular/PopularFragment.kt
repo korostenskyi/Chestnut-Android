@@ -2,14 +2,13 @@ package io.korostenskyi.chestnut.presentation.screen.popular
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.databinding.FragmentPopularBinding
-import io.korostenskyi.chestnut.domain.model.Movie
 import io.korostenskyi.chestnut.extensions.launch
 import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
@@ -41,13 +40,15 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
     private fun render(state: MoviesState) {
         when (state) {
             is MoviesState.Loading -> {
-                binding.rvMovies.isInvisible = true
+                binding.pbLoading.isVisible = true
             }
             is MoviesState.Success -> {
-                binding.rvMovies.isInvisible = false
-                popularMoviesAdapter.submitList(state.movies)
+                binding.pbLoading.isVisible = false
+                popularMoviesAdapter.addItems(state.movies)
             }
-            is MoviesState.Failure -> {}
+            is MoviesState.Failure -> {
+                binding.pbLoading.isVisible = false
+            }
         }
     }
 

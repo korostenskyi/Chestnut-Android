@@ -2,7 +2,6 @@ package io.korostenskyi.chestnut.presentation.screen.popular
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
-import io.korostenskyi.chestnut.domain.model.Movie
 import io.korostenskyi.chestnut.extensions.launch
 import io.korostenskyi.chestnut.presentation.base.viewModel.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +18,6 @@ class PopularViewModel @Inject constructor(
     val moviesStateFlow: StateFlow<MoviesState>
         get() = _moviesStateFlow
 
-    private val movies = mutableListOf<Movie>()
-
     var page = 1
         set(value) {
             field = value
@@ -30,7 +27,6 @@ class PopularViewModel @Inject constructor(
     fun retrievePopularMovies() = launch {
         _moviesStateFlow.value = MoviesState.Loading
         val result = movieInteractor.fetchPopularMovies(page)
-        movies.addAll(result)
-        _moviesStateFlow.value = MoviesState.Success(movies)
+        _moviesStateFlow.value = MoviesState.Success(result)
     }
 }
