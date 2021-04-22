@@ -28,7 +28,7 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         collectFlows()
-        viewModel.retrievePopularMovies(viewModel.page)
+        viewModel.loadMore()
     }
 
     override fun onDestroyView() {
@@ -71,10 +71,7 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
 
                 override fun isLoading() = viewModel.moviesStateFlow.value is MoviesState.Loading
 
-                override fun loadMoreItems() {
-                    viewModel.page += 1
-                    viewModel.retrievePopularMovies(viewModel.page)
-                }
+                override fun loadMoreItems() = viewModel.loadMore()
 
                 override fun pageSize() = popularMoviesAdapter.itemCount
             })

@@ -15,16 +15,21 @@ class PopularViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor
 ): BaseViewModel() {
 
-    private var moviesJob: Job? = null
-
     private val _moviesStateFlow = MutableStateFlow<MoviesState>(MoviesState.Loading)
 
     val moviesStateFlow: StateFlow<MoviesState>
         get() = _moviesStateFlow
 
-    var page = 1
+    private var moviesJob: Job? = null
 
-    fun retrievePopularMovies(page: Int) {
+    private var page = 0
+
+    fun loadMore() {
+        page += 1
+        retrievePopularMovies(page)
+    }
+
+    private fun retrievePopularMovies(page: Int) {
         moviesJob = viewModelScope.launch {
             _moviesStateFlow.value = MoviesState.Loading
             val result = movieInteractor.fetchPopularMovies(page)
