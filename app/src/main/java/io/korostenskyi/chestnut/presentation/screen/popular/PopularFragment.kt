@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.databinding.FragmentPopularBinding
-import io.korostenskyi.chestnut.extensions.launch
 import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
 import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PaginationListener
@@ -28,11 +28,17 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         collectFlows()
-        viewModel.retrievePopularMovies()
+        viewModel.retrievePopularMovies(viewModel.page)
     }
 
-    private fun collectFlows() = launch {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.onDestroy()
+    }
+
+    private fun collectFlows() {
         viewModel.moviesStateFlow
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach(::render)
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
@@ -67,6 +73,7 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
 
                 override fun loadMoreItems() {
                     viewModel.page += 1
+                    viewModel.retrievePopularMovies(viewModel.page)
                 }
 
                 override fun pageSize() = popularMoviesAdapter.itemCount
