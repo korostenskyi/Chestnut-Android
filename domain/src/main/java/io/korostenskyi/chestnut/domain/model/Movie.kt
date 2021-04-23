@@ -1,7 +1,7 @@
 package io.korostenskyi.chestnut.domain.model
 
 data class Movie(
-    val id: Long,
+    val id: Int,
     val title: String,
     val description: String,
     val posterPath: String,

@@ -1,7 +1,9 @@
 package io.korostenskyi.chestnut.data.network.mapper
 
+import io.korostenskyi.chestnut.data.network.model.MovieDetailsResponse
 import io.korostenskyi.chestnut.data.network.model.MovieResponse
 import io.korostenskyi.chestnut.domain.model.Movie
+import io.korostenskyi.chestnut.domain.model.MovieDetails
 import javax.inject.Inject
 
 class ApiResponseMapper @Inject constructor() {
@@ -12,6 +14,19 @@ class ApiResponseMapper @Inject constructor() {
             title = response.title,
             description = response.description,
             posterPath = "$POSTER_BASE_URL${response.posterPath}",
+            backdropPath = response.backdropPath,
+            isAdult = response.isAdult,
+            voteAverage = response.voteAverage,
+            voteCount = response.voteCount
+        )
+    }
+
+    fun map(response: MovieDetailsResponse): MovieDetails {
+        return MovieDetails(
+            id = response.id,
+            title = response.title,
+            overview = response.overview,
+            posterPath = response.posterPath?.let { "$POSTER_BASE_URL${it}" },
             backdropPath = response.backdropPath,
             isAdult = response.isAdult,
             voteAverage = response.voteAverage,

@@ -14,6 +14,7 @@ import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
 import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PaginationListener
 import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PopularMoviesAdapter
+import io.korostenskyi.chestnut.util.RouterDelegate
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -21,7 +22,10 @@ import kotlinx.coroutines.flow.onEach
 class PopularFragment : BaseFragment(R.layout.fragment_popular) {
 
     private val binding by viewBindings(FragmentPopularBinding::bind)
-    private val popularMoviesAdapter = PopularMoviesAdapter()
+    private val router by RouterDelegate()
+    private val popularMoviesAdapter = PopularMoviesAdapter(onItemClick = { movie ->
+        router.fromPopularToMovieDetails(movie.id)
+    })
     private val viewModel by viewModels<PopularViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

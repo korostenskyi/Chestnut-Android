@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
 import io.korostenskyi.chestnut.presentation.base.viewModel.BaseViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -26,8 +25,8 @@ class MovieDetailsViewModel @Inject constructor(
     fun retrieveMovieDetails(movieId: Int) {
         movieDetailsJob = viewModelScope.launch {
             _detailsFlow.value = MovieDetailsState.Loading
-            delay(1000)
-            _detailsFlow.value = MovieDetailsState.Success("mock")
+            val result = movieInteractor.fetchMovieDetails(movieId)
+            _detailsFlow.value = MovieDetailsState.Success(result)
         }
     }
 

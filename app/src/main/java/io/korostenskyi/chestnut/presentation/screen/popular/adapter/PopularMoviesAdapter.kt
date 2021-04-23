@@ -9,7 +9,9 @@ import coil.load
 import io.korostenskyi.chestnut.databinding.ItemPopularMovieBinding
 import io.korostenskyi.chestnut.domain.model.Movie
 
-class PopularMoviesAdapter : RecyclerView.Adapter<PopularMoviesViewHolder>() {
+class PopularMoviesAdapter(
+    private val onItemClick: (Movie) -> Unit
+) : RecyclerView.Adapter<PopularMoviesViewHolder>() {
 
     private val _items = mutableListOf<Movie>()
 
@@ -21,7 +23,7 @@ class PopularMoviesAdapter : RecyclerView.Adapter<PopularMoviesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularMoviesViewHolder {
         return ItemPopularMovieBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
-            .let { PopularMoviesViewHolder(it) }
+            .let { PopularMoviesViewHolder(it, onItemClick) }
     }
 
     override fun onBindViewHolder(holder: PopularMoviesViewHolder, position: Int) {
@@ -46,10 +48,20 @@ class PopularMoviesAdapter : RecyclerView.Adapter<PopularMoviesViewHolder>() {
 }
 
 class PopularMoviesViewHolder(
-    private val binding: ItemPopularMovieBinding
+    private val binding: ItemPopularMovieBinding,
+    private val onItemClick: (Movie) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    private var _movie: Movie? = null
+
+    init {
+        binding.ivPoster.setOnClickListener {
+            _movie?.let(onItemClick)
+        }
+    }
+
     fun bind(movie: Movie) {
+        _movie = movie
         binding.ivPoster.load(movie.posterPath)
     }
 }
