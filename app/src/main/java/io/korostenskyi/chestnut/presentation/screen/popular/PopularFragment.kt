@@ -57,7 +57,7 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
             }
             is MoviesState.Success -> {
                 binding.pbLoading.isVisible = false
-                popularMoviesAdapter.addItems(state.movies)
+                popularMoviesAdapter.replaceAll(state.movies)
             }
             is MoviesState.Failure -> {
                 binding.pbLoading.isVisible = false

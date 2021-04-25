@@ -3,6 +3,7 @@ package io.korostenskyi.chestnut.presentation.screen.popular
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
+import io.korostenskyi.chestnut.domain.model.Movie
 import io.korostenskyi.chestnut.presentation.base.viewModel.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,7 @@ class PopularViewModel @Inject constructor(
 
     private var moviesJob: Job? = null
 
+    private val movies = mutableListOf<Movie>()
     private var page = 0
 
     fun loadMore() {
@@ -33,7 +35,8 @@ class PopularViewModel @Inject constructor(
         moviesJob = viewModelScope.launch {
             _moviesStateFlow.value = MoviesState.Loading
             val result = movieInteractor.fetchPopularMovies(page)
-            _moviesStateFlow.value = MoviesState.Success(result)
+            movies.addAll(result)
+            _moviesStateFlow.value = MoviesState.Success(movies)
         }
     }
 

@@ -2,6 +2,7 @@ package io.korostenskyi.chestnut.presentation.screen.details
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -49,11 +50,16 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
 
     private fun render(state: MovieDetailsState) {
         when (state) {
-            is MovieDetailsState.Loading -> {}
+            is MovieDetailsState.Loading -> {
+                binding.pbLoading.isVisible = true
+            }
             is MovieDetailsState.Success -> {
+                binding.pbLoading.isVisible = false
                 setupBackdrop(state.movie.backdropPath)
             }
-            is MovieDetailsState.Error -> {}
+            is MovieDetailsState.Error -> {
+                binding.pbLoading.isVisible = false
+            }
         }
     }
 
