@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.databinding.FragmentMovieDetailsBinding
@@ -45,7 +46,9 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     private fun render(state: MovieDetailsState) {
         when (state) {
             is MovieDetailsState.Loading -> {}
-            is MovieDetailsState.Success -> {}
+            is MovieDetailsState.Success -> {
+                binding.ivBackdrop.load(state.movie.backdropPath)
+            }
             is MovieDetailsState.Error -> {}
         }
     }
