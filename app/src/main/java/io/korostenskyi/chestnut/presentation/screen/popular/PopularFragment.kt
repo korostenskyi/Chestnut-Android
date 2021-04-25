@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.databinding.FragmentPopularBinding
@@ -17,16 +18,18 @@ import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PopularMovie
 import io.korostenskyi.chestnut.util.RouterDelegate
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PopularFragment : BaseFragment(R.layout.fragment_popular) {
 
     private val binding by viewBindings(FragmentPopularBinding::bind)
     private val router by RouterDelegate()
-    private val popularMoviesAdapter = PopularMoviesAdapter(onItemClick = { movie ->
-        router.fromPopularToMovieDetails(movie.id)
-    })
     private val viewModel by viewModels<PopularViewModel>()
+
+    @Inject lateinit var imageLoader: ImageLoader
+
+    private lateinit var popularMoviesAdapter: PopularMoviesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +70,9 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
     }
 
     private fun setupPopularMoviesRecyclerView() {
+        popularMoviesAdapter = PopularMoviesAdapter(imageLoader, onItemClick = { movie ->
+            router.fromPopularToMovieDetails(movie.id)
+        })
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvMovies.apply {
             adapter = popularMoviesAdapter

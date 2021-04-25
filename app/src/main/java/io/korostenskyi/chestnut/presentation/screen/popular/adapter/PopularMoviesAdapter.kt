@@ -5,11 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
 import io.korostenskyi.chestnut.databinding.ItemPopularMovieBinding
 import io.korostenskyi.chestnut.domain.model.Movie
 
 class PopularMoviesAdapter(
+    private val imageLoader: ImageLoader,
     private val onItemClick: (Movie) -> Unit
 ) : RecyclerView.Adapter<PopularMoviesViewHolder>() {
 
@@ -23,7 +26,7 @@ class PopularMoviesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularMoviesViewHolder {
         return ItemPopularMovieBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
-            .let { PopularMoviesViewHolder(it, onItemClick) }
+            .let { PopularMoviesViewHolder(it, imageLoader, onItemClick) }
     }
 
     override fun onBindViewHolder(holder: PopularMoviesViewHolder, position: Int) {
@@ -49,6 +52,7 @@ class PopularMoviesAdapter(
 
 class PopularMoviesViewHolder(
     private val binding: ItemPopularMovieBinding,
+    private val imageLoader: ImageLoader,
     private val onItemClick: (Movie) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -62,7 +66,15 @@ class PopularMoviesViewHolder(
 
     fun bind(movie: Movie) {
         _movie = movie
-        binding.ivPoster.load(movie.posterPath)
+        setupPoster(movie.posterPath)
+    }
+
+    private fun setupPoster(url: String?) {
+        val request = ImageRequest.Builder(binding.root.context)
+            .data(url)
+            .target(binding.ivPoster)
+            .build()
+        imageLoader.enqueue(request)
     }
 }
 

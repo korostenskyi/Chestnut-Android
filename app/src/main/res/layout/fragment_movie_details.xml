@@ -18,9 +18,9 @@
         android:layout_width="?actionBarSize"
         android:layout_height="?actionBarSize"
         android:background="?selectableItemBackgroundBorderless"
+        android:tint="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:tint="@android:color/black"
         app:srcCompat="@drawable/ic_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
