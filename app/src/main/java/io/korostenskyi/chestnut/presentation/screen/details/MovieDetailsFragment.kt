@@ -11,6 +11,7 @@ import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.databinding.FragmentMovieDetailsBinding
 import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
+import io.korostenskyi.chestnut.util.RouterDelegate
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -19,6 +20,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
 
     private val args by navArgs<MovieDetailsFragmentArgs>()
     private val binding by viewBindings(FragmentMovieDetailsBinding::bind)
+    private val router by RouterDelegate()
     private val viewModel by viewModels<MovieDetailsViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,5 +51,12 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     }
 
     private fun setupViews() {
+        setupBackButton()
+    }
+
+    private fun setupBackButton() {
+        binding.ivBack.setOnClickListener {
+            router.back()
+        }
     }
 }
