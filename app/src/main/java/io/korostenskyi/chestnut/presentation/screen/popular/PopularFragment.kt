@@ -12,7 +12,6 @@ import coil.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.databinding.FragmentPopularBinding
-import io.korostenskyi.chestnut.di.DiNames
 import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
 import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PopularMoviesAdapter
@@ -20,7 +19,6 @@ import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PopularMovie
 import io.korostenskyi.chestnut.util.RouterDelegate
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class PopularFragment : BaseFragment(R.layout.fragment_popular) {
@@ -29,7 +27,7 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
     private val router by RouterDelegate()
     private val viewModel by viewModels<PopularViewModel>()
 
-    @Inject @Named(DiNames.HARDWARE_IMAGE_LOADER) lateinit var imageLoader: ImageLoader
+    @Inject lateinit var imageLoader: ImageLoader
 
     private val popularMoviesAdapter by lazy(LazyThreadSafetyMode.NONE) {
         PopularMoviesAdapter(imageLoader, onItemClick = { movie ->

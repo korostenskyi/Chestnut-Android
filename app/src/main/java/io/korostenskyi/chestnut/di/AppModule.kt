@@ -33,20 +33,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named(DiNames.SOFTWARE_IMAGE_LOADER)
-    fun provideSoftwareImageLoader(
-        @ApplicationContext context: Context,
-        okHttpClient: OkHttpClient,
-        params: BuildParams
-    ): ImageLoader {
-        return imageLoaderBuilder(context, okHttpClient, params)
-            .allowHardware(false)
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    @Named(DiNames.HARDWARE_IMAGE_LOADER)
     fun provideHardwareImageLoader(
         @ApplicationContext context: Context,
         okHttpClient: OkHttpClient,
