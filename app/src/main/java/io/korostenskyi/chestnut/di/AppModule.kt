@@ -14,6 +14,7 @@ import dagger.hilt.components.SingletonComponent
 import io.korostenskyi.chestnut.BuildConfig
 import io.korostenskyi.chestnut.domain.model.BuildParams
 import okhttp3.OkHttpClient
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -32,11 +33,33 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideImageLoader(
+    @Named(DiNames.SOFTWARE_IMAGE_LOADER)
+    fun provideSoftwareImageLoader(
         @ApplicationContext context: Context,
         okHttpClient: OkHttpClient,
         params: BuildParams
     ): ImageLoader {
+        return imageLoaderBuilder(context, okHttpClient, params)
+            .allowHardware(false)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named(DiNames.HARDWARE_IMAGE_LOADER)
+    fun provideHardwareImageLoader(
+        @ApplicationContext context: Context,
+        okHttpClient: OkHttpClient,
+        params: BuildParams
+    ): ImageLoader {
+        return imageLoaderBuilder(context, okHttpClient, params).build()
+    }
+
+    private fun imageLoaderBuilder(
+        context: Context,
+        okHttpClient: OkHttpClient,
+        params: BuildParams
+    ): ImageLoader.Builder {
         return ImageLoader.Builder(context)
             .okHttpClient(okHttpClient)
             .logger(
@@ -44,7 +67,6 @@ object AppModule {
                 else coilReleaseLogger
             )
             .allowRgb565(Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
-            .build()
     }
 
     private val coilReleaseLogger by lazy {

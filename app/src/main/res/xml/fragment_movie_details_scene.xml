@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        android:id="@+id/transition"
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+
+        <OnSwipe
+            motion:dragDirection="dragUp"
+            motion:touchAnchorId="@id/sv_container"
+            motion:touchAnchorSide="top" />
+
+        <KeyFrameSet>
+            <KeyAttribute
+                motion:framePosition="90"
+                motion:motionTarget="@id/iv_backdrop">
+                <CustomAttribute
+                    motion:attributeName="imageAlpha"
+                    motion:customIntegerValue="0" />
+            </KeyAttribute>
+            <KeyAttribute
+                motion:framePosition="0"
+                motion:motionTarget="@id/iv_backdrop">
+                <CustomAttribute
+                    motion:attributeName="imageAlpha"
+                    motion:customIntegerValue="255" />
+            </KeyAttribute>
+            <KeyAttribute
+                motion:framePosition="90"
+                motion:motionTarget="@id/iv_back">
+                <CustomAttribute
+                    motion:attributeName="ColorFilter"
+                    motion:customColorValue="@android:color/black" />
+            </KeyAttribute>
+            <KeyAttribute
+                motion:framePosition="60"
+                motion:motionTarget="@id/iv_back">
+                <CustomAttribute
+                    motion:attributeName="ColorFilter"
+                    motion:customColorValue="@android:color/white" />
+            </KeyAttribute>
+            <KeyAttribute
+                motion:framePosition="90"
+                motion:motionTarget="@id/tv_title">
+                <CustomAttribute
+                    motion:attributeName="ColorFilter"
+                    motion:customColorValue="@android:color/white" />
+            </KeyAttribute>
+            <KeyAttribute
+                motion:framePosition="60"
+                motion:motionTarget="@id/tv_title">
+                <CustomAttribute
+                    motion:attributeName="ColorFilter"
+                    motion:customColorValue="@android:color/black" />
+            </KeyAttribute>
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@id/iv_backdrop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintDimensionRatio="16:9"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            motion:layout_constraintBottom_toBottomOf="@id/iv_backdrop"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/iv_backdrop"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@+id/iv_backdrop"
+            motion:layout_constraintStart_toEndOf="@id/iv_back"/>
+
+        <Constraint
+            android:id="@id/iv_backdrop"
+            android:layout_width="0dp"
+            android:layout_height="?actionBarSize"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+    </ConstraintSet>
+</MotionScene>

@@ -2,11 +2,10 @@ package io.korostenskyi.chestnut.presentation.screen.popular.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
-import coil.load
 import coil.request.ImageRequest
 import io.korostenskyi.chestnut.databinding.ItemPopularMovieBinding
 import io.korostenskyi.chestnut.domain.model.Movie
@@ -14,14 +13,7 @@ import io.korostenskyi.chestnut.domain.model.Movie
 class PopularMoviesAdapter(
     private val imageLoader: ImageLoader,
     private val onItemClick: (Movie) -> Unit
-) : RecyclerView.Adapter<PopularMoviesViewHolder>() {
-
-    private val _items = mutableListOf<Movie>()
-
-    val items: List<Movie>
-        get() = _items
-
-    override fun getItemCount() = items.count()
+) : PagingDataAdapter<Movie, PopularMoviesViewHolder>(MovieDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularMoviesViewHolder {
         return ItemPopularMovieBinding
@@ -30,23 +22,7 @@ class PopularMoviesAdapter(
     }
 
     override fun onBindViewHolder(holder: PopularMoviesViewHolder, position: Int) {
-        holder.bind(items[position])
-    }
-
-    fun addItems(newItems: List<Movie>) {
-        val range = items.count()..newItems.lastIndex
-        _items.addAll(newItems)
-        notifyItemRangeChanged(range.first, range.last)
-    }
-
-    fun replaceAll(newItems: List<Movie>) {
-        val diffResult = MovieDiff(items, newItems)
-                .let { DiffUtil.calculateDiff(it) }
-        _items.apply {
-            clear()
-            addAll(newItems)
-        }
-        diffResult.dispatchUpdatesTo(this)
+        holder.bind(getItem(position))
     }
 }
 
@@ -64,9 +40,9 @@ class PopularMoviesViewHolder(
         }
     }
 
-    fun bind(movie: Movie) {
+    fun bind(movie: Movie?) {
         _movie = movie
-        setupPoster(movie.posterPath)
+        setupPoster(movie?.posterPath)
     }
 
     private fun setupPoster(url: String?) {
@@ -78,22 +54,13 @@ class PopularMoviesViewHolder(
     }
 }
 
-class MovieDiff(
-    private val oldItems: List<Movie>,
-    private val newItems: List<Movie>
-) : DiffUtil.Callback() {
+private object MovieDiff : DiffUtil.ItemCallback<Movie>() {
 
-    override fun getOldListSize() = oldItems.count()
-
-    override fun getNewListSize() = newItems.count()
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldItems[oldItemPosition].id == newItems[newItemPosition].id
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldItem = oldItems[oldItemPosition]
-        val newItem = newItems[newItemPosition]
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
         return oldItem.title.equals(newItem.title, ignoreCase = true)
                 && oldItem.description.equals(newItem.description, ignoreCase = true)
                 && oldItem.isAdult == newItem.isAdult
