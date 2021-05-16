@@ -1,4 +1,4 @@
-package io.korostenskyi.chestnut.util
+package io.korostenskyi.chestnut.util.delegate
 
 import android.view.View
 import androidx.fragment.app.Fragment

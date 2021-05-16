@@ -14,7 +14,6 @@ import dagger.hilt.components.SingletonComponent
 import io.korostenskyi.chestnut.BuildConfig
 import io.korostenskyi.chestnut.domain.model.BuildParams
 import okhttp3.OkHttpClient
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module

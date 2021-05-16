@@ -16,7 +16,7 @@ import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
 import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PopularMoviesAdapter
 import io.korostenskyi.chestnut.presentation.screen.popular.adapter.PopularMoviesStateAdapter
-import io.korostenskyi.chestnut.util.RouterDelegate
+import io.korostenskyi.chestnut.util.delegate.RouterDelegate
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 

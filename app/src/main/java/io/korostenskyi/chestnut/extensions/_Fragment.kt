@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import io.korostenskyi.chestnut.presentation.routing.Router
 import io.korostenskyi.chestnut.presentation.routing.RouterImpl
-import io.korostenskyi.chestnut.util.ViewBindingDelegate
+import io.korostenskyi.chestnut.util.delegate.ViewBindingDelegate
 
 fun <B : ViewBinding> Fragment.viewBindings(binder: (View) -> B): ViewBindingDelegate<B> {
     return ViewBindingDelegate(this, binder)

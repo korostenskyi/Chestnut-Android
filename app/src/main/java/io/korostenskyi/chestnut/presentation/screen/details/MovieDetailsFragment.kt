@@ -15,7 +15,8 @@ import io.korostenskyi.chestnut.databinding.FragmentMovieDetailsBinding
 import io.korostenskyi.chestnut.domain.model.MovieDetails
 import io.korostenskyi.chestnut.extensions.viewBindings
 import io.korostenskyi.chestnut.presentation.base.ui.BaseFragment
-import io.korostenskyi.chestnut.util.RouterDelegate
+import io.korostenskyi.chestnut.util.delegate.RouterDelegate
+import io.korostenskyi.chestnut.util.ui.IntentActionUtil
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -29,6 +30,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     private val viewModel by viewModels<MovieDetailsViewModel>()
 
     @Inject lateinit var imageLoader: ImageLoader
+    @Inject lateinit var actionUtil: IntentActionUtil
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,6 +68,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
 
     private fun setupMovie(movie: MovieDetails) {
         setupBackdrop(movie.backdropPath)
+        setupShareButton(movie)
         binding.apply {
             tvTitle.text = movie.title
             if (movie.overview != null) {
@@ -86,7 +89,6 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
 
     private fun setupViews() {
         setupBackButton()
-        setupShareButton()
     }
 
     private fun setupBackButton() {
@@ -95,9 +97,9 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         }
     }
 
-    private fun setupShareButton() {
+    private fun setupShareButton(movie: MovieDetails) {
         binding.toolbar.ivShare.setOnClickListener {
-            // TODO: Implement sharing
+            actionUtil.share(movie.title)
         }
     }
 }

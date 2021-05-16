@@ -1,4 +1,4 @@
-package io.korostenskyi.chestnut.util
+package io.korostenskyi.chestnut.util.delegate
 
 import androidx.fragment.app.Fragment
 import io.korostenskyi.chestnut.extensions.findRouter
