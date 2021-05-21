@@ -69,6 +69,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     private fun setupMovie(movie: MovieDetails) {
         setupBackdrop(movie.backdropPath)
         setupShareButton(movie)
+        setupRating(movie.voteAverage)
         binding.apply {
             tvTitle.text = movie.title
             if (movie.overview != null) {
@@ -85,6 +86,10 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             .target(binding.ivBackdrop)
             .build()
         imageLoader.enqueue(request)
+    }
+
+    private fun setupRating(rating: Double) {
+        binding.tvRating.text = rating.toString()
     }
 
     private fun setupViews() {
