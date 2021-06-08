@@ -55,6 +55,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         when (state) {
             is MovieDetailsState.Loading -> {
                 binding.pbLoading.isVisible = true
+                binding.toolbar.ivShare.isVisible = false
             }
             is MovieDetailsState.Success -> {
                 binding.pbLoading.isVisible = false
@@ -62,6 +63,9 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             }
             is MovieDetailsState.Error -> {
                 binding.pbLoading.isVisible = false
+                binding.toolbar.ivShare.isVisible = false
+                binding.includeError.root.isVisible = true
+                binding.includeError.tvErrorMessage.text = state.message
             }
         }
     }
@@ -103,6 +107,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     }
 
     private fun setupShareButton(movie: MovieDetails) {
+        binding.toolbar.ivShare.isVisible = true
         binding.toolbar.ivShare.setOnClickListener {
             actionUtil.share(movie.title)
         }
