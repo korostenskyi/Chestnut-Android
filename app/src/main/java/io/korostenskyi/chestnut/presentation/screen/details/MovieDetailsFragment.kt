@@ -89,7 +89,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     }
 
     private fun setupRating(rating: Double) {
-        binding.tvRating.text = rating.toString()
+        binding.tvRating.text = getString(R.string.movie_details_rating_average, rating)
     }
 
     private fun setupViews() {
