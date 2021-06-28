@@ -27,6 +27,18 @@ abstract class BaseFragment(
     }
 
     @CallSuper
+    override fun onStart() {
+        Timber.tag(LIFECYCLE_TAG).d("${javaClass.simpleName} onStart")
+        super.onStart()
+    }
+
+    @CallSuper
+    override fun onStop() {
+        Timber.tag(LIFECYCLE_TAG).d("${javaClass.simpleName} onStop")
+        super.onStop()
+    }
+
+    @CallSuper
     override fun onDestroyView() {
         Timber.tag(LIFECYCLE_TAG).d("${javaClass.simpleName} onDestroyView")
         super.onDestroyView()

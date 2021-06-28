@@ -11,16 +11,9 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     @CallSuper
-    open fun onCreate() {}
-
-    @CallSuper
-    open fun onViewCreated() {}
-
-    @CallSuper
-    open fun onDestroyView() {}
-
-    @CallSuper
-    open fun onDestroy() {}
+    open fun onDestroy() {
+        Timber.tag(TAG).d("${javaClass.simpleName} onDestroy")
+    }
 
     @CallSuper
     override fun onCleared() {

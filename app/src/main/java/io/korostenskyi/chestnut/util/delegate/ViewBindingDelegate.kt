@@ -1,4 +1,4 @@
-package io.korostenskyi.chestnut.util
+package io.korostenskyi.chestnut.util.delegate
 
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -21,7 +21,7 @@ class ViewBindingDelegate<B : ViewBinding>(
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private fun onDestroy() {
+    fun onDestroy() {
         binding = null
         fragment.viewLifecycleOwner.lifecycle.removeObserver(this)
     }

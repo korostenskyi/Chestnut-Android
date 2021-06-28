@@ -28,26 +28,34 @@ abstract class NetworkModule {
     companion object {
         @Provides
         @Singleton
-        fun provideRetrofit(params: BuildParams): TMDBApi {
-            val client = OkHttpClient.Builder()
-                    .addInterceptor(
-                            HttpLoggingInterceptor().apply {
-                                if (params.isDebug) HttpLoggingInterceptor.Level.BODY
-                                else HttpLoggingInterceptor.Level.NONE
-                            }
-                    )
-                    .build()
+        fun provideOkHttpClient(params: BuildParams): OkHttpClient {
+            return OkHttpClient.Builder()
+                .addInterceptor(
+                    HttpLoggingInterceptor().apply {
+                        if (params.isDebug) HttpLoggingInterceptor.Level.BODY
+                        else HttpLoggingInterceptor.Level.NONE
+                    }
+                )
+                .build()
+        }
+
+        @Provides
+        @Singleton
+        fun provideRetrofit(
+            params: BuildParams,
+            okHttpClient: OkHttpClient
+        ): TMDBApi {
             val contentType = "application/json".toMediaType()
             return Retrofit.Builder()
-                    .baseUrl(params.tmdbApiBaseUrl)
-                    .client(client)
-                    .addConverterFactory(
-                        Json {
-                            ignoreUnknownKeys = true
-                        }.asConverterFactory(contentType)
-                    )
-                    .build()
-                    .create(TMDBApi::class.java)
+                .baseUrl(params.tmdbApiBaseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(
+                    Json {
+                        ignoreUnknownKeys = true
+                    }.asConverterFactory(contentType)
+                )
+                .build()
+                .create(TMDBApi::class.java)
         }
     }
 }

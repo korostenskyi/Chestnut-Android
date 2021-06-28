@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        android:id="@+id/transition"
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+
+        <OnSwipe
+            motion:dragDirection="dragUp"
+            motion:touchAnchorId="@id/sv_container"
+            motion:touchAnchorSide="top" />
+
+        <KeyFrameSet>
+            <KeyAttribute
+                motion:framePosition="90"
+                motion:motionTarget="@id/iv_backdrop">
+                <CustomAttribute
+                    motion:attributeName="imageAlpha"
+                    motion:customIntegerValue="0" />
+            </KeyAttribute>
+            <KeyAttribute
+                motion:framePosition="0"
+                motion:motionTarget="@id/iv_backdrop">
+                <CustomAttribute
+                    motion:attributeName="imageAlpha"
+                    motion:customIntegerValue="255" />
+            </KeyAttribute>
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@id/sv_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/iv_backdrop"
+            motion:layout_constraintBottom_toBottomOf="parent"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@id/sv_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/toolbar"
+            motion:layout_constraintBottom_toBottomOf="parent"/>
+    </ConstraintSet>
+</MotionScene>
